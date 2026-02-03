@@ -1,0 +1,85 @@
+=== Dropped Features Log ===
+
+Feature Correlation Analysis:
+             Feature  Correlation        P-value
+6     absoluate_roll    -0.704515   0.000000e+00
+10             time1     0.641312   0.000000e+00
+14             time5     0.640413   0.000000e+00
+11             time2     0.640405   0.000000e+00
+12             time3     0.640405   0.000000e+00
+13             time4     0.640398   0.000000e+00
+16             time7     0.638829   0.000000e+00
+15             time6     0.638817   0.000000e+00
+18             time9     0.636374   0.000000e+00
+17             time8     0.636374   0.000000e+00
+20            time11     0.633707   0.000000e+00
+19            time10     0.633567   0.000000e+00
+21            time12     0.630812   0.000000e+00
+22            time13     0.630761   0.000000e+00
+23            time14     0.628335   0.000000e+00
+39               set     0.628272   0.000000e+00
+38             omega     0.615920   0.000000e+00
+3                  n     0.396974  1.608501e-309
+2                  m     0.334420  1.007365e-214
+4      current_pitch     0.308080  6.998045e-181
+5       current_roll     0.106015   4.680991e-22
+0           acc_rate     0.079642   4.348469e-13
+9   climb_delta_diff    -0.073560   2.239434e-11
+1              track    -0.061289   2.529463e-08
+7        climb_delta    -0.056970   2.242708e-07
+8    roll_rate_delta    -0.052774   1.618092e-06
+32       time9_delta     0.040202   2.597459e-04
+24       time1_delta     0.035307   1.339280e-03
+30       time7_delta     0.032115   3.530695e-03
+34      time11_delta     0.027330   1.304894e-02
+36      time13_delta     0.025826   1.898541e-02
+37      time14_delta    -0.024296   2.732763e-02
+27       time4_delta    -0.019433   7.756277e-02
+29       time6_delta    -0.019433   7.756277e-02
+31       time8_delta    -0.017202   1.182009e-01
+26       time3_delta     0.016617   1.312613e-01
+28       time5_delta     0.010641   3.338486e-01
+25       time2_delta    -0.009047   4.112944e-01
+35      time12_delta    -0.008918   4.180003e-01
+33      time10_delta    -0.002875   7.940295e-01
+
+Step 1 - Dropped features (p-value > 0.05):
+time2_delta, time3_delta, time4_delta, time5_delta, time6_delta, time8_delta, time10_delta, time12_delta
+
+Step 2 - Count of zero p-values between features:
+acc_rate: 2
+track: 2
+m: 1
+n: 10
+current_pitch: 18
+current_roll: 2
+absoluate_roll: 1
+climb_delta: 3
+roll_rate_delta: 2
+climb_delta_diff: 2
+time1: 17
+time2: 17
+time3: 17
+time4: 17
+time5: 17
+time6: 17
+time7: 17
+time8: 17
+time9: 17
+time10: 18
+time11: 18
+time12: 18
+time13: 18
+time14: 18
+time1_delta: 1
+time7_delta: 1
+time9_delta: 1
+time11_delta: 1
+time13_delta: 1
+time14_delta: 1
+omega: 18
+set: 18
+
+Step 2 - Dropped features:
+n, current_pitch, time2, time3, time4, time5, time6, time7, time8, time9, time10, time11, time12, time13, time14, omega, set
+
