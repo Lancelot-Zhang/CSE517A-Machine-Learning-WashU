@@ -1,0 +1,239 @@
+# YOUR CODE HERE
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+
+<!-- MathJax scripts -->
+<!--
+  <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+-->
+<!--
+<script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
+<script type="text/javascript">
+LatexIT.add('p',true);
+</script>
+-->
+
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js"],
+      jax: ["input/TeX", "output/HTML-CSS"],
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+      },
+      "HTML-CSS": { availableFonts: ["TeX"] }
+    });
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js">
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full"></script>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Project 1: Structural Risk Minimization</title>
+<link href="projects.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h2>Project 1: Structural Risk Minimization</h2>
+
+
+<!--announcements-->
+
+-<blockquote>
+    <center>
+    <img src="spam.jpeg" width="200px" />
+    </center>
+      <p><cite><center>"One person's spam is another person's dinner."<br>
+       -- ancient German wisdom
+      </center></cite></p>
+</blockquote>
+<h3>Introduction</h3>
+
+<p>
+    In this project you will be building an email spam filter.</p>
+
+<p>The code for this project (<code>project1</code>) consists of several files, some of which you will need to read and understand in order to complete the assignment, and some of which you can ignore.
+<table border="0" cellpadding="10">
+  <tr><td colspan="2"><b>Files you'll edit:</b>
+</td></tr>
+
+<tr><td><code>  project1Main.py</code></td><td>The main function of this project.</td></tr>
+<tr><td><code>  grdescent.py</code></td><td>Performs gradient descent.</td></tr>
+<tr><td><code>  hinge.py</code></td><td>Computes the hinge loss and gradient.</td></tr>
+<tr><td><code>  ridge.py</code></td><td>Computes the ridge regression loss and gradient.</td></tr>
+<tr><td><code>  logistic.py</code></td><td>Computes the logistic regression loss and gradient. </td></tr>
+<tr><td><code>  trainspamfilter.py</code></td><td> Trains your spam filter and saves the final weight vector in a file <b><code>w_trained.npy</code></b>.</td></tr>
+<tr><td><code>  linearmodel.py</code></td><td>Returns the predictions for a weight vector and a data set.</td></tr>
+<tr><td><code>  spamupdate.py</code></td><td> <b>(optional)</b> Allows you to update the spam filter when you make a mistake. </td></tr>
+
+  <tr><td colspan="2"><b>Files you want to look at and maybe change:</b></td></tr>
+
+<tr><td><code>  tokenizedata.py</code></td><td>  A simple python script that turns raw emails into bag of word features.</td></tr>
+
+<tr><td><code>  example_tests.py</code></td><td>Describes several unit tests to find obvious bugs in your implementation. Uses <code>checkgradLogistic.py</code> and <code>checkgradHingeAndRidge.py</code>.</td></tr>
+
+  <tr><td colspan="2"><b>Files you might want to look at:</b></td></tr>
+<tr><td><code>  valsplit.py</code></td><td>This function takes the data and splits it into 80% training (xTr,yTr) and 20% validation (xTv,yTv). The splitting is not random but by time (i.e. the training data consists of emails that were received before the validation data.)</td></tr>
+<tr><td><code>  spamfilter.py</code></td><td> Loads in the file <b><code>w_trained.npy</code></b> and applies the corresponding spam filter on whatever test set you pass on as argument. </td></tr>
+
+
+<tr><td colspan="2"><b>Helper files (you don't have to look at):</b></td></tr>
+<tr><td><code>  vis_rocs.py</code></td><td>  Visualizes the ROC curves for the differnt losses using the train/test split from <code>valsplit</code>.</td></tr>
+
+<tr><td><code>  spamdemo.py</code></td><td> Runs your classifier on some sample emails, and shows you the ones it misclassifies.  </td></tr>
+
+  </table>
+</p>
+
+<p><strong>How to submit:</strong> You can commit your code through the command line with git and submit on Gradescope either in a zip file or through Github. <em>Do not</em> include any training data in the submission. If the project is submitted before the initial deadline passes, you will receive information and a score for the perfromance evaluation (only once the deadline is reached).
+However, the autograder will not reveal any information on how your code performed for any projects submitted during the three day extension period. You can submit your project as many times as you want but the final submission score will count for your grade. If you submitted by the initial deadline and would like to improve your performance score, you can submit again during the extension period.<br>  </p>
+
+<p><strong>Grading:</strong> Your code will be autograded for technical
+correctness. Please <em>do not</em> change the names of any provided functions or classes within the code, or you will wreak havoc on the autograder. However, the correctness of your implementation -- not the autograder's output -- will be the final judge of your score.  If necessary, we will review and grade assignments individually to ensure that you receive due credit for your work.</p>
+
+<p><strong>PYTHON Version in Autograder:</strong> The autograder uses PYTHON 3.6. We recommend using any version of PYTHON 3.6 or newer for the implementation projects.
+
+<p><strong>Regrade Requets:</strong> Use Gradescope for regrade requests.
+</p>
+
+<p><strong>Academic Dishonesty:</strong> We will be checking your code against other submissions in the class for logical redundancy. If you copy someone else's code and submit it with minor changes, we will know. These cheat detectors are quite hard to fool, so please don't try. We trust you all to submit your own work only; <em>please</em> don't let us down. If you do, we will pursue the strongest consequences available to us.
+</p>
+
+<p><strong>Getting Help:</strong> You are not alone! If you find yourself stuck on something, contact the course TAs for help.  Office hours and <a href="https://piazza.com/">Piazza</a> are there for your support; please use the appropriate tags (<b>project1</b> and/or <b>autograder</b>).  If you can't make any of our office hours, let us know and we can schedule an alternative time. We want these projects to be rewarding and instructional, not frustrating and demoralizing.  But, we don't know when or how to help unless you ask.  </p>
+
+
+<h3>Getting the data</h3>
+<p>The data will be provided for download on Canvas. It comes in a folder <b><code>data</code> </b> and contains the raw email text data as well as a file containing a preprocessed version in matrix format.  The file <b><code>data_train_default.npy</code></b> contains the pre-processed email data, where emails are represented as <b>1024-dimensional bag-of-words vectors</b>. You will need this file to get started with your implementation. To improve your spam filter for the quality evaluation you might want to use the raw data in the <b><code>data_train</code></b> subfolder. This data contains the raw email text, so that you can invent your own features.</p>
+
+
+<h3>Computing derivatives</h3>
+
+<p>  Before you dive into the programming part of this assignment you will need to derive the gradients for several loss functions.
+    <b>You do not have to hand this part in, but save your derivations as these are part of written homework 1.</b>
+</p>
+
+<p>   Derive the gradient function for each of the following loss functions with respect to the weight vectdor $w$. Write down the gradient update (with stepsize $c$). <br>
+(Note that:    $\|w\|_2^2=w^\top w$ and  $\lambda$ is a  non-negative constant.)
+</p>
+
+<ol>
+    <li> Ridge Regression: ${\cal L}(w)=\sum_{i=1}^n (w^\top x_i-y_i)^2+\lambda \|w\|_2^2$ </li>
+    <li> Logistic Regression: ($y_i\in\{+1,-1\}$): ${\cal L}(w)=\sum_{i=1}^n \log(1+\exp{(-y_i w^\top x_i)})$ </li>
+    <li> Hinge loss: ($y_i\in\{+1,-1\}$): ${\cal L}(w)=\sum_{i=1}^n \max \left(1-y_i(w^\top x_i),0\right)+\lambda \|w\|_2^2$ </li>
+</ol>
+
+
+
+<h3>Building an email spam filter</h3>
+<p> You will now implement these functions and their gradient updates.  </p>
+
+    <p>In <code>project1Main.py</code>
+    <pre>
+    # load the data:
+        data = np.load('data/data_train_default.npy', allow_pickle=True).item()
+        X = data['X']
+        Y = data['Y']
+    # split the data:
+        xTr,xTv,yTr,yTv = valsplit(X,Y)
+    </pre>
+    This should generate a training data set <code>xTr</code>, <code>yTr</code> with <b>4000 data points</b> and a validation set <code>xTv</code>, <code>yTv</code> with <b>1000 data points</b> for you.  <br>
+    It is now time to implement your classifiers. We will always use gradient descent, but with various loss functions. </p>
+
+<ol>
+    <li> Implement the function <code>ridge.py</code> which computes the loss and gradient for a particular data set <code>xTr</code>, <code>yTr</code> and a weight vector <code>w</code>.
+        Make sure you don't forget to incorporate your regularization constant $\lambda$.
+        You can check your gradient with the code included in <code>checkgradHingeAndRidge.py</code>.
+        <i>Keep this method of checking the gradients in mind beyond this assignemnt whenever you have to implement functions and their gradients!</i></li>
+    <li> Implement the function <code>grdescent.py</code> which performs gradient descent.
+        Make sure to include the tolerance variable to stop early if the norm of the gradient is less than the tolerance value (you can use the function <code>norm(x)</code>). When the norm of the gradient is tiny it means that you have arrived at a minimum.  <br>
+        The first parameter of <code>grdescent</code> is a function which takes a weight vector and returns loss and gradient.
+        In Python you can make inline functions (so-called lambda functions) with the following code (first line):<br>
+        <pre>
+            f = lambda w : ridge(w,xTr,yTr,0.1)
+            w_trained = grdescent (f,np.zeros((xTr.shape[0],1)),1e-06,1000)
+        </pre>
+        You can choose what kind of step-size you implement (e.g. constant, decreasing, line search,...).
+        [HINT: Personally, I increase the stepsize by a factor of 1.01 each iteration where the loss goes down, and decrease it by a factor 0.5 if the loss went up.
+        ... if you are smart you also undo the last update in that case to make sure the loss decreases every iteration.]</li>
+    <li> Write the (almost trivial) function <code>linearmodel</code> which returns the predictions for a vector <code>w</code> and a data set <code>xTv</code>. </li>
+    <li> Now call the main module:<br><br>
+    	<pre>
+	>> python3 project1Main.py  </pre>
+        Observe the code in your main module. The first command trains a spam filter and saves the resulting weight vector in <code>w_trained.npy</code>.
+        The second command will run your spam filter with the weights in <code>w_trained.npy</code> over the validation data set.<br>
+        It will be your task to find a good objective function and input parameters (for both the objective function and the gradient method).
+        The outputs of <code><b>spamfilter.py</b></code> are (Note that the exact numbers will be different for you):
+        <pre>
+  	       False positive rate: 0.65%
+  	       True positive rate: 56.09%
+  	       AUC: 97.58%        </pre>
+
+        <ul>
+        <li> <i>false positive rate (fpr)</i> (how many emails you accidentally classify as spam).</li>
+        <li> <i>true positive rate (tpr)</i> (how many spam emails you catch). </li>
+        <li> <i>area under the curve (AUC)</i>, which different from tpr and fpr is independent of the cut-off threshold (the last argument into <code>spamfilter.py</code>). As the name suggests, it computes the area of the <a href="https://en.wikipedia.org/wiki/Receiver_operating_characteristic">ROC curve</a> and is a good measure to compare spam filters. </li>
+        </ul>
+
+     <li> Use <code>spamdemo.py</code> to see which emails get classified incorrectly. It uses <code>trainspamfilter.py</code>, which also saves your learned weight vector as <code>w_trained.npy</code>.</li>
+
+    <li> Now implement the function <code>hinge.py</code>, which is the equivalent to ridge but with the hinge loss. Again, you can check your gradient with the code included in <code>checkgradHingeAndRidge.py</code>. Take a look at <b><code>trainspamfilter.py</code></b>. You can change it to use the logistic loss instead of ridge regression to train the classifier. Use <code>spamdemo.py</code> again to see the misclassified emails when using this loss function. </li>
+    <li> Now implement the function <code>logistic.py</code>, which is the equivalent to ridge but with the log-loss (logistic regression). You can check your gradient with the code included in <code>checkgradLogistic.py</code>.
+        [HINT: By default the logistic loss does not take a regularization constant, but feel free to incorporate regularization if you want to.]  </li>
+    <li> Now, run <code>vis_rocs</code> to see if your algorithms all work.
+         You might have to fiddle with the STEPSIZE parameter at the very top (maybe set it to something very small initially (e.g. 1e-08) and work yourself up).</li>
+    <li> Finally, change <code>trainspamfilter.py</code> to the loss function, settings, and parameters you want to use in your <b>final spam filter</b> and train it by running <code>project1Main.py</code> or <code>spamdemo.py</code>. </li>
+
+
+
+</ol>
+</p>
+
+<h4>Hints</h4>
+<p><strong>Tests.</strong> To test your code you should <b>implement</b> and run <code>example_tests.py</code>, which describes and paritally implements several example unit tests. Those tests are a subset of what we will use in the audograder to grade your submission. </p>
+
+<p>70% of the grade for your project 1 submission will be assigned based on the correctness of your implementation. </p>
+
+<h3> Feature Extraction (Quality Evaluation)</h3>
+30% of the grade for your project 1 submission will be assigned by how well your <b>final spam classifier</b> performs on a secret test set of emails. If you want to improve your classifier beyond modyfing the loss function and training processdure (which you can do via <code>trainspamfilter.py</code>), you may want to look at and modify <code>tokenizedata.py</code>:
+<ul>
+  <li><code>tokenizedata.py</code> creates new feature representations from the <b>raw text data</b> and stores it into <code>data_train.npy</code>.</li>
+  <li><code>trainspamfilter.py</code> creates the new weight vector <code>w_trained.npy</code>. Invoke it from <code>project1Main.py</code> which loads the data from <code>data_train.npy</code>. HINT: you will have to update the path/filename in <code>np.load()</code>. </li>
+</ul>
+<br>
+To use your new training method you must train your weight vector locally and add and commit it with your implementation.
+
+If you modified <code>tokenizedata.py</code> make sure you commit it as well. <b>CAUTION:</b> this module may <b>only</b> use standard Python libaraies included with the <code>anaconda 3</code> distribution. If you installed your own libraries beyond that we <b>cannot</b> create the features for the secret test set! Do <b>not</b> use any files besides <code>stopwords.txt</code> in your tokenizer because the autograder won't be able to use them.<br><br>
+
+
+The autograder will evaluate your final classifier (feature representation plus training method) on emails from the same authors as the ones in your dataset, but emails that arrived later on. We will use your modified tokenizers to tokenize the test emails as well!
+
+
+You can also modify <code>spamupdate.py</code> see task 1 below for tips to get you started. Also consider changing the default threshold in <code>spamfilter.py</code> which is currently set to 0.3.
+</p>
+
+<h4>Hints</h4>
+<ol>
+    <li> You may implement <code>spamupdate.py</code> to make small gradient steps during test time
+         (basically you still correct the classifier after you made a mistake).</li>
+    <li> If you take a look at the script <code>tokenizedata.py</code>, you can get an idea of how the tokenization is done.
+         You can modify this if you want to change how the tokenization is done.
+         For example, by default the data uses $2^{10}=1024$ dimensional features. You could change this by increasing $10$ in the definition of <code>HASHBUCKETS</code>. Also, a common trick is to remove stopwords.
+         An example list called <code>stopwords.txt</code> is in your repository.
+         You can edit this file, but if you change the name of it or try to use any other files in your tokenization (even if you commit them to your repository), the autograder will run into an error.
+         You can also include bi-grams or feature re-weighting with <a href = "https://en.wikipedia.org/wiki/Tf-idf">TFIDF</a> by modifiying <code>tokenizedata.py</code>.</li>
+</ol>
+<p>
+Commit all your files. Make sure to <strong>add <code>w_trained.npy</code> to your repository</strong> because the autograder will <b>not</b> rerun your tokenizer (<code>tokenizedata.py</code>) on the training set!
+</p>
+
+<hr>
+<h5>Credits: Project adapted from Kilian Weinberger (Thanks for sharing!). Project adapted to Python by Chengke Ye (2019).</h5>
+
+</body>
+</html>
