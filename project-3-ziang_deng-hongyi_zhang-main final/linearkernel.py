@@ -1,0 +1,20 @@
+import numpy as np
+
+def linear_kernel(x1, x2):
+    """
+    Linear kernel.
+    
+    Parameters:
+        x1: array-like, has dimension dxn
+        x2: array-like, has dimension dxn
+
+    Returns:
+        K: the kernel matrix; array, has dimension nxn
+    """
+    # YOUR CODE HERE
+
+    x1 = np.asarray(x1)
+    x2 = np.asarray(x2)
+    lin_kernel = x1.T @ x2
+
+    return lin_kernel
