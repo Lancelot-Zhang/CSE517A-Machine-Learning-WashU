@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<!--
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript"
+  src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+-->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js"],
+      jax: ["input/TeX", "output/HTML-CSS"],
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+      },
+      "HTML-CSS": { availableFonts: ["TeX"] }
+    });
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js">
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full"></script>
+  
+<meta name="viewport" content="width=device-width">
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Neural Networks</title>
+<link href="projects.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h2>Neural Networks</h2>
+
+
+
+<!--announcements-->
+<blockquote>
+    <center>
+     <img src="deepdreamNN.jpg" width="500px" />
+    </center>
+      <p><cite><center>...when robots hallucinate...<br>
+<b><a href="https://www.theatlantic.com/technology/archive/2015/09/robots-hallucinate-dream/403498/">--The Atlantic</a></b><br>
+      </center></cite></p>
+</blockquote>
+
+
+
+<h3>Introduction</h3>
+
+<p>
+    In this project you will implement a Neural Network. First create a GitHub Classroom team and clone the project4 repository. </p>
+
+<p>The code for this project (<code>project4</code>) consists of several files, some of which you will need to read and understand in order to complete the assignment, and some of which you can ignore.
+<table border="0" cellpadding="10">
+  <tr><td colspan="2"><b>Files you'll edit:</b>
+</td></tr>
+<tr><td><code>preprocess.py</code></td><td>
+	Make the training data set zero mean and each feature should have the standard deviation of 1.
+</td></tr>
+<tr><td><code>grdescent.py</code></td><td>
+	Performs gradient descent. You can use your code from a previous project.
+</td></tr>
+<tr><td><code>forward_pass.py</code></td><td>
+	Computes the output for one pass through the neural network
+</td></tr>
+<tr><td><code>compute_loss.py</code></td><td>
+	Given the output of a network, computes the loss
+</td></tr>
+<tr><td><code>backprop.py</code></td><td>
+  Given the output of a network, computes the gradient of the weights
+</td></tr>
+ <tr><td colspan="2"><b>Files you might want to look at:</b></td></tr>
+<tr><td><code>initweights.py</code></td><td>
+  This function initializes the weights of the network given the structure of the network.
+</td></tr>
+<tr><td><code>deepnet.py</code></td><td>
+  Computes the loss and gradient for a particular feed forward neural net.  Calls <code>forward_pass.py</code>, <code>compute_loss.py</code>, and <code>backprop.py</code>.
+</td></tr>
+<tr><td><code>bostondemo.py</code></td><td>
+  This script visualizes the RMSE error on the boston data set.
+</td></tr>
+<tr><td><code>bostontest.py</code></td><td>
+	This is a copy of the function the autograder will use to assess your code.
+</td></tr>
+<tr><td><code>best_parameters.pickle</code></td><td>
+  This stores the data used to evaluate your performance by the autograder
+</td></tr>
+</table>
+
+<p><strong>Allowed Libraries:</strong> Do not import any additional libraries in any file. This will cause the autograder to fail since using only numpy will be sufficient for a successful implementation.
+
+<p><strong>How to submit:</strong>  You can commit your code through the command line with git and submit on Gradescope either in a zip file or through Github. If the project is submitted before the initial deadline passes, you will receive information and a score for the performance evaluation (only once the deadline is reached).
+However, the autograder will not reveal any information on how your code performed for any projects submitted during the three day extension period. You can submit your project as many times as you want but the final submission score will count for your grade. If you submitted by the initial deadline and would like to improve your performance score, you can submit again during the extension period.<br>
+
+<p><strong>Grading:</strong> Your code will be autograded for technical
+correctness, efficiency, and performance. Please <em>do not</em> change the names of any provided functions or classes within the code, or you will wreak havoc on the autograder. However, the correctness of your implementation -- not the autograder's output -- will be the final judge of your score.  If necessary, we will review and grade assignments individually to ensure that you receive due credit for your work.</p>
+
+<p><strong>PYTHON Version in Autograder:</strong> The autograder uses PYTHON 3.6. To rule out any incompatabilites of differnt versions we recommend to use any version of PYTHON 3.6 or newer for the implementation projects.
+
+<p><strong>Regrade Requets:</strong> Use Gradescope for regrade requests.
+</p>
+
+<p><strong>Academic Dishonesty:</strong> We will be checking your code against other submissions in the class for logical redundancy. If you copy someone else's code and submit it with minor changes, we will know. These cheat detectors are quite hard to fool, so please don't try. We trust you all to submit your own work only; <em>please</em> don't let us down. If you do, we will pursue the strongest consequences available to us.
+
+<p><strong>Getting Help:</strong> You are not alone!  If you find yourself stuck  on something, contact the course TAs for help.  Office hours and <a href="https://piazza.com/">Piazza</a> are there for your
+support; please use them.  If you can't make our office hours, let us know and we will schedule more.  We want these projects to be rewarding and instructional, not frustrating and demoralizing.  But, we don't know when or how to help unless you ask.
+
+<h3>Dataset</h3>
+In this project, you will implement a neural network and test is on the Boston data set.
+
+<p>This data set contains housing prices as targets and community statistics as features. You can access the training and test set in the data folder provided with your code. 
+  For reference, the code can be loaded in as follows:
+<pre>
+  xTr = np.loadtxt("data/xTr.csv", delimiter=",")
+  yTr = np.loadtxt("data/yTr.csv", delimiter=",").reshape(1,-1)
+  xTe = np.loadtxt("data/xTe.csv", delimiter=",")
+  yTe = np.loadtxt("data/yTe.csv", delimiter=",").reshape(1,-1)
+</pre>
+
+<h3>Implementing a Neural Network</h3>
+
+<p>You will now implement the function <code>deepnet.py</code>. As a very first step, you should open the file and take a look at it.
+We broke it apart into three functions and a pre-processing step.</p>
+<ol>
+  <li><p> First implement the preprocess function
+  <pre>preprocess(xTr, xTe)</pre>
+  It takes as input the training and the test data.  This should make the training data set zero-mean and each feature should have standard deviation 1. Make sure to only use the training dataset to learn the transformation and then apply exactly the same transformations to the test data set.
+  	<ol>
+  	 <li>HINT: Each input vector should be transformed by \(\vec{x}_i\rightarrow \Sigma(\vec{x}_i-m)\), where \(\Sigma\) is a diagonal \(d\times d\) matrix with entries \(\frac{1}{\sigma_j}\).</li>
+	 <li>HINT 2: check the lecture materials on dimensionality reduction to get this step done. Be careful with numerical issues with the involved operations. </li>
+  <!--	 <li>HINT 2: Ideally you would like the input features to be de-correlated. The correlation matrix should be diagonal (in this case even the identity matrix). One way to do this is to project the data onto the PCA principal components (which we will still cover later in the course). You can get the transposed projection matrix by calling $pcacov(xTr')$. Make sure to apply PCA <i>after</i> you subtracted off the mean. </li>-->
+    </ol>
+  </p>
+  </li>
+
+  <li><p> Now implement the forward pass function
+  <pre>forward_pass(W,xTr,trans_func)</pre>
+  It takes the weights for the network, the training data, and the transition function to be used between layers.  It should output the result at each node for the forward pass.  W[0] stores the weights for the last layer of the network.
+  </p>
+  </li>
+
+  <li><p> Now compute the loss for the network
+  <pre>compute_loss(zs, yTr)</pre>
+  It takes the output of the forward pass and the training labels.  It should compute the loss for the entire training set averaging over all the points:
+  $$L(x, y) = \frac{\frac{1}{2}(H(x) - y)^2}{n}$$
+  </p>
+  </li>
+
+  <li><p> Now compute the gradient for the weights
+  <pre>backprop(W, as, zs, yTr,  der_trans_func)</pre>
+  It takes the weights for the network, the outputs of the forward pass, the training labels, and the derivative of the transition function.  Use the chain rule to calculate the gradient of the weights.
+  </p></li>
+
+
+  <li><p>
+  If you did everything correctly, you should now be able to visualize your RMSE error on the boston data:
+  <pre>
+  >> python bostondemo.py
+  </pre>
+  The result should look similar to this image:
+  <center>
+   <img src="overfitting.png" width="500px" />
+  </center>
+  Each dot shows the training / testing error of a house price prediction example. The houses are sorted by increasing price. The very right plot shows the training and testing error. <br><br>
+    </li>
+</ol>
+
+<h3> Evaluation</h3>
+<p><strong>Tests.</strong>
+
+<p>80% of the grade for your project4 submission will be assigned based on the correctness of your  implementation. </p>
+
+<p><strong>Performance.</strong> 10% of your grade will come from the speed of your implementation, and 10% from the accuracy. </p>
+
+
+  <p>Timing Score: This score is based on how fast your neural network trains on the data. A faster implementation earns more points.</p>
+
+  <p>Accuracy Score: This score is based on how accurate your neural network predicts a secret test set after being trained on the same training data you have access to. A lower sum squared error earns more points. </p>
+
+
+<p> Look at the file <code>bostontest.py</code>. This file shows how the autograder will evaluate your implementation for performance (this is just a copy though, feel free to edit it). In its current state the file is not runnable since you don't have access to <code>xTe_secret</code> or <code>yTe_secret</code>, but with easy modifications you can use this file to choose the parameters you would like to submit to the autograder. Remember that the times and accuracies you get locally will not guarantee the same score on the autograder. Both times and accuracies will be different, but you should be able to get an idea of what works well.</p>
+
+<p> <code> main.py </code> contains code to save your parameter choices to <code> best_parameters.pickle </code>. Main will not be used in the autograder, it is to show you how to save parameters, so you can use it test your code anyway you want. You should edit these parameters to improve your performance score. If you don't, the default values described below will be used. In this case you should recieve a 5/10 on efficiency and 5/10 on accuracy giving you 90% overall assuming you implement the rest of your neural network correctly.</p>
+
+<table>
+<tr><td colspan="2"><b>Parameters You Can Edit:</b></td></tr>
+<tr><td><code>TRANSNAME</code></td><td>
+The transition function. Either 'sigmoid', 'ReLU2', 'tanh', or 'ReLU'. Default: 'sigmoid'.
+</td></tr>
+<tr><td><code>ROUNDS</code></td><td>
+The number of times the entire network will be optimized. Also known as epochs. Default: 200.
+</td></tr>
+<tr><td><code>ITER</code></td><td>
+The maximum number of iterations in each gradient descent step. Default: 50.
+</td></tr>
+<tr><td><code>STEPSIZE</code></td><td>
+The stepsize parameter that gets passed to your gradient descent function. This will either be the constant stepsize or the initial stepsize. Default: .1.
+</td></tr>
+<tr><td><code>wst</code></td><td>
+The network architecture. Each element in this array is the number of nodes in that layer from back to front. You can also change the number of layers. The network must start with 1 and end with 13. Default: [1 20 20 20 13].
+</td></tr>
+</table>
+
+
+<p> Note that it will be very difficult to get 100% on this project. The point is to figure out ways to improve the accuracy of your neural network without making it take longer and vice versa. Try running your test data on <code>bostontest.py</code> as a validation set to choose your parameters and make sure to take note of how your changes affect both runtime and accuracy.</p>
+
+<hr>
+<h5>Credits: Project adapted from Kilian Weinberger (Thanks for sharing!).</h5>
+
+</body>
+</html>
