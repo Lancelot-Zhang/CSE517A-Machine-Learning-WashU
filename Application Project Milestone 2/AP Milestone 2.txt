@@ -1,0 +1,66 @@
+Application Project Milestone 2
+
+在期末项目的第二阶段，你将探索特征工程（Feature Engineering），这是提高数据质量并减少数据集维度的一种方法。降低维度可以提高测试时的效率，减少模型的复杂性，从而减少拟合模型所需的数据量。
+
+Feature Selection (10 points)
+
+请注意，我们的数据点位于具有 40 个特征的高维空间中。如果这些特征对于学习决定潜在目标变量的函数都至关重要，那么使用它们全部是合理的。然而，情况通常并非如此。我们将利用第一阶段的分析来确定哪些特征应该保留，哪些应该丢弃。这个过程称为特征选择（Feature Selection）。
+
+1. 简要说明高维数据的一个优点和一个缺点。为什么我们可能只想使用部分特征？
+2. 回顾第一阶段的统计分析和 KDE（核密度估计）结果，基于这些结果，列出至少 3 个可能需要丢弃的特征，并解释丢弃的理由。如果没有要丢弃的特征，请说明原因。
+3. 回顾第一阶段计算出的每个特征与目标变量的相关性，基于这些结果，列出至少 1 个需要保留的特征和 1 个需要丢弃的特征，并分别说明理由。
+4. 回顾第一阶段计算的特征之间的相关性，基于这些结果，找出至少 1 对相关性较高的特征，并决定只保留其中的一个。解释你选择保留和丢弃该特征的理由。
+5. 手动选择一个特征子集，并使用第一阶段评估过的某个模型，在这个特征子集上训练模型，报告10 折交叉验证（10-fold cross-validation）的性能。
+
+PCA (10 points)
+
+接下来，我们将探讨另一种特征工程方法：主成分分析（PCA, Principal Component Analysis）。
+
+PCA -> 保留两个主成分
+1. 在不考虑之前的特征选择结果的情况下，对所有原始特征执行 PCA，并保留两个主成分。
+2. 绘制 3D 散点图，其中：x 轴、y 轴分别对应两个主成分，z轴对应目标变量。 解释该图表的含义。
+3. 由于 3D 图表有时不易阅读，因此创建 2D 可视化：x 轴、y 轴仍然对应两个主成分，目标变量用颜色表示。选择合适的颜色映射（colormap）并绘制热力图
+4. 描述并讨论两个可视化的结果。
+5. 使用第一阶段相同的模型，对 PCA 变换后的数据（即仅保留两个主成分的版本）进行 10 折交叉验证，并报告性能。
+
+PCA -> 选择主成分数（基于重建误差容忍度）
+1. 基于 1e-6 的重建误差容忍度选择主成分数（注意：这里指的是所使用特征的特征值占比，而不是绝对的重建误差）。使用选择出的主成分数转换数据集。
+2. 使用前面相同的模型，在转换后的数据上执行 10 折交叉验证，并报告性能。
+
+
+
+Performance Comparison (10 points) （我的部分）
+
+现在，我们将对比基线模型（Baseline）与使用不同特征工程方法训练的模型，包括：基线模型（Baseline）；手动选择特征的模型（Hand-selected features model）；PCA 变换的模型（PCA-transformed features model）；基于聚类的特征模型（Cluster-based features model，来自第一阶段）
+
+1. 基于 10 折交叉验证的结果，比较四种模型的性能，并确保所有 4 个评估都使用相同的交叉验证（CV）数据划分。
+2. 使用配对 t 检验（paired t-test），比较最佳特征选择模型与基线模型的测试误差。同样，确保这两个模型使用相同的交叉验证数据划分：计算 p 值，并解释其含义。
+
+best-performing model: NN
+数据集：Raw_features, Handle_selected_features, Cluster_based_features, PCA_transformed_features
+步骤：
+1. 10折交叉验证，使用NN作为模型，针对不同的四种数据集进行回归，确保所有4个评估模型都使用了相同的交叉验证（CV）数据划分
+2. 使用配对 t 检验（paired t-test），比较最佳特征选择模型与基线模型的测试误差。确保这两个模型使用相同的交叉验证数据划分。
+3. 计算 p 值，并解释其含义。
+
+4. Performance Comparison
+4.1 Cross Validation
+4.2 T-test
+
+Prompt: 请使用神经网络模型，基于4种不同的数据集Raw_features, Handle_selected_features, Cluster_based_features, PCA_transformed_features进行和回归，使用10折交叉验证，确保所有4个评估模型都使用了相同的交叉验证数据划分。并且使用paired t-test，比较最佳特征选择模型与基线模型的测试误差。确保这两个模型使用的相同的交叉验证数据划分，并计算p-value，并解释其含义。数据集为Raw_features文件夹种的X_test, X_train, y_test, y_train还有Handle_selected features等数据。
+
+
+
+Milestone Report (5 pts)
+本阶段的评分基于书面报告（而不是 GitHub 代码仓库中的代码）。报告应为排版良好、详细、自解释且独立的文档。
+
+Typically a report consists of a (short) intro/summary of your work, followed by a data and data processing section, then describe the method(s) you implemented and then the results you have achieved. Then finish up with a conclusion (summary of what you did, the main results, limitations, and how to improve (aka thoughts on future work)).
+
+1. intro/summary
+2. data and data processing
+3. the methods and the results
+4. conclusion
+
+
+
+
