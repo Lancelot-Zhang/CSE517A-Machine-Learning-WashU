@@ -1,0 +1,15 @@
+acc_rate
+track
+m
+current_roll
+absoluate_roll
+climb_delta
+roll_rate_delta
+climb_delta_diff
+time1
+time1_delta
+time7_delta
+time9_delta
+time11_delta
+time13_delta
+time14_delta
